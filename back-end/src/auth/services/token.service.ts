@@ -1,4 +1,4 @@
-import db from "../../knexfile";
+import db from "../../database/db";
 
 interface RefreshTokenData {
     user_id: number;

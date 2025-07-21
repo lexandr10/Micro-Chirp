@@ -4,6 +4,7 @@ import morgan from "morgan"
 import cors from "cors"
 import dotenv from "dotenv"
 import authRouter from "./auth/routes/authRouter"
+import chirpRouter from "./auth/routes/chirpRouter"
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(
 app.use(express.json());
 
 app.use("/api/auth", authRouter)
+app.use("/api/chirps", chirpRouter)
 
 app.use((err: any, req: Request, resp: Response, next: NextFunction) => {
   const { status = 500, message = "Problem with server" } = err;

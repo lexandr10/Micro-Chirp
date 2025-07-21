@@ -13,6 +13,7 @@
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.0.14",
     "@types/pg": "^8.15.4",
+    "cross-env": "^7.0.3",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
@@ -33,8 +34,9 @@
     "pg": "^8.16.3"
   },
   "scripts": {
+    "db:create": "ts-node createDatabase.ts",
     "migrate:make": "knex --knexfile src/knexfile.ts migrate:make",
-    "migrate:latest": "knex --knexfile src/knexfile.ts migrate:latest",
+    "migrate:latest": "cross-env NODE_ENV=development knex --knexfile ./src/knexfile.ts migrate:latest",
     "migrate:rollback": "knex --knexfile src/knexfile.ts migrate:rollback",
     "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "build": "tsc",

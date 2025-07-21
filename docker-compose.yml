@@ -1,0 +1,41 @@
+
+
+services:
+  database:
+    image: postgres:16
+    container_name: microchirp-db
+    environment:
+      POSTGRES_USER: chirpuser
+      POSTGRES_PASSWORD: chirppass
+      POSTGRES_DB: chirpdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    container_name: microchirp-backend
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgres://chirpuser:chirppass@database:5432/chirpdb
+    ports:
+      - "4000:4000"
+    depends_on:
+      - database
+
+  frontend:
+    build:
+      context: ./front-end
+    container_name: microchirp-frontend
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:4000/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  db_data:

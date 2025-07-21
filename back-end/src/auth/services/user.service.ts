@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 
-import db from "../../knexfile"
+import db from "../../database/db";
 import { NewUser, User } from "../../schemas/schemas"
 
 
