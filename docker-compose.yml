@@ -23,7 +23,7 @@ services:
       JWT_ACCESS_SECRET: your_access_secret_key
       JWT_REFRESH_SECRET: your_refresh_secret_key
     ports:
-      - "4000:4000"
+      - "3001:4000"
     depends_on:
       - database
 
@@ -33,7 +33,7 @@ services:
     container_name: microchirp-frontend
     environment:
       NODE_ENV: development
-      NEXT_PUBLIC_API_URL: http://localhost:4000/api
+      NEXT_PUBLIC_API_URL: http://localhost:3001/api
     ports:
       - "3000:3000"
     depends_on:
