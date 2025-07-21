@@ -21,5 +21,11 @@ export const authService = {
 
         if (response) removeAccessToken();
         return response.data.message;
+    },
+
+    async getCurrentUser() {
+        const response = await axiosWithAuth.get<IAuthResponseLogin>("/auth/current");
+        
+        return response.data;
     }
 }

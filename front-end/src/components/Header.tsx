@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+
 
 import { getAccessToken, removeAccessToken } from "@/services/auth-token.service";
 import { authService } from "@/services/auth.service";
@@ -11,18 +13,23 @@ import { authService } from "@/services/auth.service";
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter()
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    const token = getAccessToken();
-    setIsAuthenticated(!!token)
-  }, [])
+  const {
+    data: user,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => authService.getCurrentUser(),
+    retry: false,
+    staleTime: 1000 * 60,
+  });
 
+  
   const handleLogout = async () => {
     try {
       await authService.logout();
       removeAccessToken();
-      setIsAuthenticated(false)
       toast.success("Logged out successfully");
       router.push("/auth/login");
 
@@ -39,7 +46,7 @@ export default function Header() {
         <NavLink href="/" label="All Chirps" activePath={pathname} />
         <NavLink href="/dashboard" label="My Chirps" activePath={pathname} />
         <NavLink href="/auth/login" label="Auth" activePath={pathname} />
-        {isAuthenticated && (
+        {user && !isLoading && !isError  && (
           <button
             onClick={handleLogout}
             className="text-red-500 hover:text-red-700 transition-colors font-medium"
