@@ -11,7 +11,7 @@ import { authService } from "@/services/auth.service";
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter()
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const token = getAccessToken();
