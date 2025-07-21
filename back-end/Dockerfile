@@ -1,26 +1,21 @@
 
-FROM node:20
+FROM node:18-alpine
 
 
 RUN corepack enable && corepack prepare yarn@stable --activate
 
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 
 COPY package.json yarn.lock ./
 
 
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 
 COPY . .
 
-
-RUN yarn db:create
-
-
-RUN yarn migrate:make
 
 
 EXPOSE 4000

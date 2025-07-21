@@ -15,11 +15,13 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ./back-end
     container_name: microchirp-backend
     environment:
       NODE_ENV: development
       DATABASE_URL: postgres://chirpuser:chirppass@database:5432/chirpdb
+      JWT_ACCESS_SECRET: your_access_secret_key
+      JWT_REFRESH_SECRET: your_refresh_secret_key
     ports:
       - "4000:4000"
     depends_on:
